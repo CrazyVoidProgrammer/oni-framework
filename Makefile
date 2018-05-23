@@ -1,9 +1,7 @@
 # If the FREEBSD headers path is not set we will try to use the relative path
-#ifeq ($(BSD_INC),)
-#BSD_INC := ../freebsd-headers
-#endif
-
-BSD_INC := /mnt/d/PS4/freebsd-headers
+ifeq ($(BSD_INC),)
+BSD_INC := ../freebsd-headers
+endif
 
 # Project name
 PROJ_NAME := OniFramework
