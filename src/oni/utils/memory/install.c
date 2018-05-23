@@ -50,7 +50,7 @@ void SelfElevateAndRunStage2()
 {
 	// Fill the kernel base address
 	gKernelBase = (uint8_t*)kernelRdmsr(0xC0000082) - kdlsym_addr_Xfast_syscall;
-
+	
 	//0x40000;
 	void(*critical_enter)(void) = kdlsym(critical_enter);
 	void(*crtical_exit)(void) = kdlsym(critical_exit);
@@ -58,7 +58,7 @@ void SelfElevateAndRunStage2()
 	void(*printf)(char *format, ...) = kdlsym(printf);
 	int(*kproc_create)(void(*func)(void*), void* arg, struct proc** newpp, int flags, int pages, const char* fmt, ...) = kdlsym(kproc_create);
 	vm_map_t map = (vm_map_t)(*(uint64_t *)(kdlsym(kernel_map)));
-
+	
 	// Apply patches
 	critical_enter();
 	cpu_disable_wp();
@@ -67,18 +67,21 @@ void SelfElevateAndRunStage2()
 
 	cpu_enable_wp();
 	crtical_exit();
-
+	
 	// We currently are in kernel context, executing userland memory
 	if (!gUserBaseAddress || !gUserBaseSize || !gElevatedEntryPoint)
 		return;
 
 	printf("[*] Got userland payload %p %x\n", gUserBaseAddress, gUserBaseSize);
-
+	printf("[+] Another printf test\n");
+	
 	// Allocate some memory
 	uint8_t* kernelPayload = (uint8_t*)kmem_alloc(map, gUserBaseSize);
 	if (!kernelPayload)
 		return;
 
+	printf("[+] Test 002\n");
+	
 	printf("[+] Allocated kernel executable memory %p\n", kernelPayload);
 
 	// Find the exported init_kernelStartup symbol

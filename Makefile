@@ -1,7 +1,9 @@
 # If the FREEBSD headers path is not set we will try to use the relative path
-ifeq ($(BSD_INC),)
-BSD_INC := ../freebsd-headers
-endif
+#ifeq ($(BSD_INC),)
+#BSD_INC := ../freebsd-headers
+#endif
+
+BSD_INC := /mnt/d/PS4/freebsd-headers
 
 # Project name
 PROJ_NAME := OniFramework
@@ -27,7 +29,7 @@ endif
 SRC_DIR	:=	src
 
 # Include directory paths
-I_DIRS	:=	-I. -Iinclude -I$(SRC_DIR) -I$(BSD_INC) -Idepends/include
+I_DIRS	:=	-I. -Iinclude -I$(SRC_DIR) -I$(BSD_INC)/include -Idepends/include
 
 # Library directory paths
 L_DIRS	:=	-L.	-Llib
